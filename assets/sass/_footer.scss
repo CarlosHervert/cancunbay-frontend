@@ -1,0 +1,56 @@
+#Footer{
+    background-color: $secondary-color;
+    color: white;
+    .logo{
+        width: 130px;
+    }
+
+    .links{
+        color: white;
+    }
+
+    .menu{
+      color: white !important;
+      cursor: pointer !important;
+      text-transform: uppercase !important;
+      text-decoration: none !important;
+    }
+}
+
+.logoTrip{
+   opacity: 0.45 !important;
+ }
+
+ .testimonials{
+      &-name{
+         color: $secondary-color;
+         font-size: $text-semi-title1;
+         font-weight: bold;
+      }
+      &-date{
+         color:$primary-color;
+      }
+      &-tour{
+         font-size: $text-sub;
+         font-weight: bold;
+         color: $secondary-color;
+      }
+ }
+
+
+@media #{map-get($display-breakpoints, 'md-and-down')}{
+   #Footer{
+
+      .logo{
+          width: 150px;
+      }
+      .links{
+          color: white;
+      }
+
+      .menu{
+        font-size: $text-sub2;
+      }
+  }
+}
+

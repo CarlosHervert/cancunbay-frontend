@@ -1,0 +1,182 @@
+/*.search_engine{
+
+  background-color: $primary-color;
+}*/
+
+
+.icons-text{
+   font-size: $text-semi-title2;
+}
+
+.all-toursHome{
+   font-size: $text-semi-title2 !important;
+   color: $secondary-color !important;
+   text-decoration: underline;
+   cursor: pointer;
+
+}
+
+
+#homePage{
+   .sliderCo{
+      //background-image: url('/images/homeBanners/vista-al-mar-desde-tulum.jpg') ;
+      background-position: center;
+      width: 100%;
+      //margin-top: 100px;
+      height: 500px;
+   }
+   .sliderPosition{
+      margin-top: -200px !important;
+      position:static;
+      z-index: 7;
+      .slideHomeTop{
+            margin-top: 0;
+            z-index: 0;
+            //position: relative;
+            .v-window{
+               overflow: inherit !important;
+            }
+
+            .v-window__next {
+                  // margin: 0 -18px !important;
+                  //z-index: 9000 !important;
+                  .v-btn__content {
+                     box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     -moz-box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     -webkit-box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     -o-box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     width: 50px;
+                     height: 50px;
+                     border-radius: 50%;
+                  }
+            }
+            .v-window__prev {
+                  //margin: 0 -18px !important;
+                  //z-index: 9000 !important;
+                  .v-btn__content {
+                     box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     -moz-box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     -webkit-box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     -o-box-shadow: 0px 4px 15px 0 rgba(0, 0, 0, 0.6);
+                     width: 50px;
+                     height: 50px;
+                     border-radius: 50%;
+                  }
+            }
+            .v-window__next,
+            .v-window__prev {
+                  margin: 0 -18px !important;
+                  z-index: 0 !important;
+                  .v-icon.v-icon {
+                     background-color: white;
+                     color: $primary-color;
+                     font-size: 2.9rem !important;
+                     width: 50px;
+                     height: 50px;
+                     border-radius: 50%;
+                  }
+            }
+      }
+   }
+}
+
+
+.destinationsImg{
+   width: 100%;
+   height: 290px;
+   cursor: pointer;
+   .img-name{
+      top: auto;
+      color: white;
+      font-size: $text-semi-title2;
+      font-weight: bold;
+      margin: auto 15px 15px 15px;
+      word-break: break-word;
+   }
+}
+
+
+.meses-sin-intereses{
+   color: $primary-color;
+   font-size: 2.25rem;
+   font-weight: bold;
+   &-down{
+      color: $text-content-color;
+      font-size: $text-title;
+   }
+}
+
+
+.bookBtn{
+   background-color: $primary-color !important;
+   color: white !important;
+   font-weight: bold;
+   font-size: $text-semi-title2 !important;
+}
+
+
+@media #{map-get($display-breakpoints, 'md-and-down')}{
+
+
+
+   #homePage{
+      .sliderCo{
+         //background-image: url('/images/homeBanners/vista-al-mar-desde-tulum.jpg') ;
+         background-position: center;
+         width: 100%;
+         //margin-top: 100px;
+         height: 500px;
+      }
+      .sliderPosition{
+         margin-top: -140px !important;
+         position:static;
+         z-index: 7;
+         .slideHomeTop{
+            margin-top: 0;
+            z-index: 0;
+            //position: relative;
+            .v-carousel__controls{
+
+               z-index: 0;
+               // background-color: red;
+               .v-item-group {
+                  .v-carousel__controls__item{
+                     .v-btn__content{
+                        .v-icon{
+                           font-size: 10px !important;
+                           color: $primary-color;
+                           opacity: 1;
+                        }
+
+                     }
+                  }
+                  .v-item--active {
+                     .v-btn__content{
+                        .v-icon{
+                           font-size: 10px !important;
+                           color: $secondary-color;
+                           opacity: 1;
+                        }
+
+                     }
+                  }
+               }
+            }
+
+         }
+
+      }
+   }
+
+
+
+   .meses-sin-intereses{
+      color: $primary-color;
+      font-size: $text-semi-title2;
+      font-weight: bold;
+      &-down{
+         color: $text-content-color;
+         font-size: $text-normal;
+      }
+   }
+}

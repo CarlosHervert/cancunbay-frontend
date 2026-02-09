@@ -1,0 +1,244 @@
+
+.tour-card{
+
+   &-img{
+      width: 100%;
+      height: 207px !important;
+      //background-color: red;
+      img{
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         //object-position: center center;
+
+      }
+      .discount{
+
+         color: $primary-color !important;
+         font-size: $text-semi-title2 !important;
+         font-weight: bold;
+         margin-top: -400px;
+
+      }
+      .private_button{
+         background-color: $secondary-color;
+         width: 50%;
+         text-transform: capitalize;
+         color: white !important;
+         font-size: $text-semi-title2 !important;
+         margin-top: -70px;
+      }
+   }
+
+   .available{
+      color:$secondary-color !important;
+   }
+   .backActions{
+      background-color:  $secondary-color !important;
+      //position: absolute;
+      bottom: 0;
+      width: 100%;
+   }
+   &-content{
+      font-size: $text-sub !important;
+      color: $input-text-color !important;
+
+
+   }
+
+
+   &-data{
+      height: 160px;
+      // min-height: 200px;
+      // max-height: 600px;
+      //background-color: chartreuse;
+   }
+   &-title{
+      width:100% !important;
+      font-size: $text-semi-title1 !important;
+      color:$primary-color !important;
+      font-weight: bolder;
+      height: 65px !important;
+      //background-color: red;
+   }
+   &-rank{
+      width: 100%;
+   }
+
+   &-prices{
+      width: 100%;
+
+   }
+   &-duration{
+      width: 100%;
+   }
+   &-text-action{
+      color: white !important;
+      font-weight: bold !important;
+   }
+   &-btn{
+      width: 100%;
+      &-action{
+         background-color: $primary-color !important;
+         text-transform: lowercase !important;
+         color: white !important;
+         font-weight: bold !important;
+         font-size: $text-sub !important;
+      }
+   }
+}
+
+.tour-detail{
+
+   .blue-rectangle{
+
+       background-color: lighten($secondary-color, 53);
+
+      .price-fake{
+         color:  $text-price-fake !important;
+         text-decoration: line-through;
+         font-size: $text-semi-title1;
+         font-weight: bold;
+      }
+      .price-real{
+         color: black !important;
+         font-size: $text-semi-title2;
+         font-weight: bold;
+
+      }
+      .data{
+         color: white;
+      }
+
+   }
+   .buttons{
+      .detail{
+         background-color: $secondary-color !important;
+         color: white !important;
+         font-weight: bold !important;
+         font-size: $text-normal !important;
+      }
+   }
+}
+
+.discount-detail{
+
+   color: white !important;
+   font-size: $text-semi-title2 !important;
+   font-weight: bold;
+
+
+}
+
+.embeded-video {
+   width: 100% !important;
+   height: 580px !important;
+
+
+   iframe {
+      width: 100% !important;
+      height: 100% !important;
+   }
+}
+
+.button-closeVideo{
+   position:absolute !important;
+   z-index: 999 !important;
+   margin-top: 15px !important;
+   margin-left: -5px !important;
+   margin-left: auto !important;
+   margin-right: 0 !important;
+   float: right !important;
+}
+.wraperVideo{
+   height: 600px !important;
+}
+
+//// expansion component
+///
+
+.expandContent{
+   z-index: 0;
+   &-title{
+      font-size: $text-title !important;
+      color: $secondary-color !important;
+      font-weight: bold;
+      border-bottom: 2px solid $primary-color;
+   }
+   .v-expansion-panel-content__wrap{
+      padding-left: 8px;
+      padding-right: 8px;
+
+   }
+}
+
+.textDestinationHeader{
+   font-size:$text-title-up;
+   color: white;
+   font-weight: bold;
+}
+
+
+
+@media #{map-get($display-breakpoints, 'sm-and-down')}{
+
+   .expandContent{
+      z-index: 0 !important;
+
+   }
+   .embeded-video {
+      width: 100% !important;
+      height: 350px !important;
+      iframe {
+         width: 100% !important;
+         height: 100% !important;
+      }
+   }
+
+
+   .button-closeVideo{
+      position:absolute !important;
+      z-index: 999 !important;
+      margin-top: 15px !important;
+      margin-left: -5px !important;
+      margin-left: auto !important;
+      margin-right: 0 !important;
+      float: right !important;
+   }
+   .wraperVideo{
+      height: 350px !important;
+   }
+
+
+   .tour-detail{
+      .blue-rectangle{
+
+         background-color: lighten($secondary-color, 53);
+
+         .price-fake{
+            color:  $text-price-fake !important;
+            text-decoration: line-through;
+            font-size: $text-sub;
+            font-weight: bold;
+         }
+         .price-real{
+            color: black !important;
+            font-size: $text-sub;
+            font-weight: bold;
+
+         }
+         .data{
+            color: white;
+         }
+
+      }
+      .buttons{
+         .detail{
+            background-color: $secondary-color !important;
+            color: white !important;
+            font-weight: bold !important;
+            font-size: $text-normal !important;
+         }
+      }
+   }
+}
