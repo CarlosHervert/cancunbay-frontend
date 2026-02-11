@@ -59,7 +59,7 @@
             <v-row
                v-if="mobile"
                align="baseline"
-               :class="!route ? 'd-none' : 'd-flex mt-10 text-center'"
+               :class="!isCheckoutPage ? 'd-none' : 'd-flex mt-10 text-center'"
                no-gutters
             >
                <v-col cols="12" class="text-center">
@@ -88,7 +88,7 @@
                   />
                </v-col>
             </v-row>
-            <v-row v-if="mobile" :class="!route ? 'd-none' : 'd-flex'">
+            <v-row v-if="mobile" :class="!isCheckoutPage ? 'd-none' : 'd-flex'">
                <v-col cols="12" class="text-center">
                   <client-only>
                      <img
@@ -106,7 +106,7 @@
             <v-row
                v-if="!mobile"
                align="baseline"
-               :class="!route ? 'd-none' : 'd-flex mt-10 text-center'"
+               :class="!isCheckoutPage ? 'd-none' : 'd-flex mt-10 text-center'"
                no-gutters
             >
                <v-col cols="12" class="text-center">
@@ -135,7 +135,10 @@
                   />
                </v-col>
             </v-row>
-            <v-row v-if="!mobile" :class="!route ? 'd-none' : 'd-flex'">
+            <v-row
+               v-if="!mobile"
+               :class="!isCheckoutPage ? 'd-none' : 'd-flex'"
+            >
                <v-col cols="12" class="text-center">
                   <client-only>
                      <img
@@ -186,13 +189,13 @@ export default {
          return this.$store.getters["booking/tours"];
       },
       alto() {
-         if (this.isMobile) {
+         if (this.mobile) {
             return 500;
          } else {
             return 468;
          }
       },
-      route() {
+      isCheckoutPage() {
          // console.log(this.$route.name);
 
          if (this.$route.name.includes("checkout")) {
@@ -231,10 +234,14 @@ export default {
                      idioma: this.$store.getters["booking/language"],
                   })
                   .then((resp) => {
-                     this.total = this.$store.dispatch("booking/setTotal", {
+                     this.$store.dispatch("booking/setTotal", {
                         usd: resp.data.data,
                         mxn: resp.data.data_mxn,
                      });
+                     this.total =
+                        this.$i18n.locale === "es"
+                           ? resp.data.data_mxn
+                           : resp.data.data;
                   });
             } else {
                const rates = this.tourDetail.rates;
@@ -243,11 +250,15 @@ export default {
                   .map((element) => element.pax)
                   .indexOf(this.tourDetail.pax);
 
-               if (pos !== false) {
-                  this.total = this.$store.dispatch("booking/setTotal", {
+               if (pos !== -1) {
+                  this.$store.dispatch("booking/setTotal", {
                      usd: parseFloat(rates[pos].real_price),
                      mxn: parseFloat(rates[pos].real_price_mxn),
                   });
+                  this.total =
+                     this.$i18n.locale === "es"
+                        ? parseFloat(rates[pos].real_price_mxn)
+                        : parseFloat(rates[pos].real_price);
                }
             }
          } catch (e) {

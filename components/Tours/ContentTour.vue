@@ -55,22 +55,8 @@
                </v-col>
                <v-col cols="12" sm="6" class="px-8" :order="mobile ? '1' : '2'">
                   <detail-action :item="item" :video="video"></detail-action>
-                  <SearchEngine
-                     :openPax="openPax"
-                     :open="0"
-                     class="mt-5"
-                     v-if="this.$i18n.locale === 'es'"
-                  >
+                  <SearchEngine :openPax="openPax" :open="0" class="mt-5">
                   </SearchEngine>
-                  <v-btn
-                     v-else
-                     depressed
-                     class="bookBtn rounded-lg py-6 my-15"
-                     block
-                     @click="openVentrata"
-                  >
-                     {{ $t("general.book_now") }}
-                  </v-btn>
 
                   <div v-if="map !== ''" v-html="map" class="mx-0 mt-5"></div>
 
@@ -115,22 +101,8 @@
                      class="my-5"
                   ></general-data>
                   <detail-action :item="item" :video="video"></detail-action>
-                  <SearchEngine
-                     :openPax="openPax"
-                     :open="0"
-                     class="mt-5"
-                     v-if="this.$i18n.locale === 'es'"
-                  >
+                  <SearchEngine :openPax="openPax" :open="0" class="mt-5">
                   </SearchEngine>
-                  <v-btn
-                     v-else
-                     depressed
-                     class="bookBtn rounded-lg py-6 my-15"
-                     block
-                     @click="openVentrata"
-                  >
-                     {{ $t("general.book_now") }}
-                  </v-btn>
 
                   <content-expand
                      :title="$t('tours.description')"

@@ -96,6 +96,15 @@ export default {
       const language = name.includes("cancunbay.com.mx") ? 1 : 2;
       const currency = name.includes("cancunbay.com.mx") ? "MXN" : "USD";
 
+      // const language =
+      //    name.includes("cancunbay.com.mx") || name.includes("localhost")
+      //       ? 1
+      //       : 2;
+      // const currency =
+      //    name.includes("cancunbay.com.mx") || name.includes("localhost")
+      //       ? "MXN"
+      //       : "USD";
+
       this.$store.dispatch("booking/setLanguage", language);
       this.$store.dispatch("booking/setCurrency", currency);
    },

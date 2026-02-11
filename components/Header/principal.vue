@@ -112,6 +112,8 @@ export default {
       items() {
          const name = window.location.href;
 
+         // if (name.includes("cancunbay.com.mx") || name.includes("localhost")) {
+
          if (name.includes("cancunbay.com.mx")) {
             return [
                "Desde México: 01 (984) 242 - 0070",

@@ -36,7 +36,6 @@
                   <v-row justify="center">
                      <v-col cols="12" sm="10" md="8">
                         <div class="search_engine py-10">
-                           {{ showsearch }}
                            <SearchEngine></SearchEngine>
                         </div>
                      </v-col>
@@ -119,22 +118,6 @@
                      >
                         {{ all_tours.name }}
                      </nuxt-link>
-                  </v-col>
-               </v-row>
-               <v-row
-                  justify="center"
-                  class="mt-15"
-                  v-if="this.$i18n.locale !== 'es'"
-               >
-                  <v-col cols="8" md="3" class="text-center">
-                     <v-btn
-                        depressed
-                        class="bookBtn rounded-lg py-6"
-                        block
-                        @click="openVentrata"
-                     >
-                        {{ $t("general.book_now") }}
-                     </v-btn>
                   </v-col>
                </v-row>
             </div>
@@ -240,7 +223,7 @@ export default {
       },
 
       imgHeight() {
-         if (this.isMobile) {
+         if (this.mobile) {
             return 450;
          } else {
             return 500;

@@ -91,16 +91,6 @@
                </nuxt-link>
             </div>
          </v-col>
-         <v-col cols="1" v-if="this.$i18n.locale !== 'es'">
-            <v-btn
-               depressed
-               class="bookBtn2 rounded-lg py-3 align-self-end"
-               block
-               @click="openVentrata"
-            >
-               {{ $t("general.book_now") }}
-            </v-btn>
-         </v-col>
       </v-row>
    </v-container>
    <v-container v-else class="mt-0 pt-0">
