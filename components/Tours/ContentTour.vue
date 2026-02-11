@@ -3,17 +3,14 @@
       <client-only>
          <Gallery :items="itemsGallery" :video="video"></Gallery>
 
-
-            <!--<div id="search-engine"  class="search_engine py-10">
+         <!--<div id="search-engine"  class="search_engine py-10">
 
                <SearchEngine  :openPax="openPax"> </SearchEngine>
             </div>-->
 
-
-
          <v-container class="my-5 px-5">
             <v-row>
-               <v-col cols="12"  class="px-8 ">
+               <v-col cols="12" class="px-8">
                   <v-breadcrumbs
                      :items="breadcrumbs"
                      divider=">"
@@ -21,45 +18,78 @@
                   ></v-breadcrumbs>
                </v-col>
             </v-row>
-            <v-row >
-               <v-col cols="12" sm="6" class="px-8" :order="(mobile) ? '2' :'1' ">
+            <v-row>
+               <v-col cols="12" sm="6" class="px-8" :order="mobile ? '2' : '1'">
+                  <SectionTitle
+                     :title-text="name"
+                     class="mt-5 d-inline"
+                     :discount="item.discount"
+                  ></SectionTitle>
 
-                  <SectionTitle :title-text="name" class="mt-5 d-inline" :discount="item.discount"></SectionTitle>
+                  <general-data
+                     :rank="item.rank"
+                     :duration="item.duration"
+                     :available="item.avaible"
+                     :id="item.tour_id"
+                     class="mt-5"
+                  ></general-data>
 
-                  <general-data :rank="item.rank" :duration="item.duration" :available="item.avaible" :id="item.tour_id" class="mt-5"></general-data>
-
-                  <content-expand :title="$t('tours.description')" :content="description" :is_html="true" class="mt-5"></content-expand>
-                  <content-expand :title="$t('tours.includes')" :content="include" :is_html="true" class="mt-5"></content-expand>
-                  <content-expand :title="$t('tours.recommendations')" :content="suggestion" :is_html="true" class="mt-5"></content-expand>
-
-
+                  <content-expand
+                     :title="$t('tours.description')"
+                     :content="description"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
+                  <content-expand
+                     :title="$t('tours.includes')"
+                     :content="include"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
+                  <content-expand
+                     :title="$t('tours.recommendations')"
+                     :content="suggestion"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
                </v-col>
-               <v-col cols="12" sm="6" class="px-8" :order="(mobile) ? '1' :'2' ">
+               <v-col cols="12" sm="6" class="px-8" :order="mobile ? '1' : '2'">
                   <detail-action :item="item" :video="video"></detail-action>
-                  <SearchEngine  :openPax="openPax" :open="0" class="mt-5" v-if="this.$i18n.locale==='es'"> </SearchEngine>
-                  <v-btn v-else depressed class="bookBtn rounded-lg py-6 my-15" block
+                  <SearchEngine
+                     :openPax="openPax"
+                     :open="0"
+                     class="mt-5"
+                     v-if="this.$i18n.locale === 'es'"
+                  >
+                  </SearchEngine>
+                  <v-btn
+                     v-else
+                     depressed
+                     class="bookBtn rounded-lg py-6 my-15"
+                     block
+                     @click="openVentrata"
+                  >
+                     {{ $t("general.book_now") }}
+                  </v-btn>
 
-                           @click="openVentrata" >
-                           {{ $t('general.book_now') }}
-                        </v-btn>
+                  <div v-if="map !== ''" v-html="map" class="mx-0 mt-5"></div>
 
-                  <div v-if="map!=='' " v-html="map" class="mx-0 mt-5"></div>
+                  <content-expand
+                     :title="$t('tours.not_included')"
+                     :content="not_included"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
 
-                  <content-expand :title="$t('tours.not_included')" :content="not_included" :is_html="true" class="mt-5"></content-expand>
-
-                  <content-expand :title="$t('tours.notes')" :content="note" :is_html="true" class="mt-5"></content-expand>
-
-
+                  <content-expand
+                     :title="$t('tours.notes')"
+                     :content="note"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
                </v-col>
             </v-row>
-
-
          </v-container>
-
-
-
-
-
       </client-only>
    </div>
    <div v-else>
@@ -67,7 +97,7 @@
          <Gallery :items="itemsGallery" :video="video"></Gallery>
          <v-container class="my-5 px-1">
             <v-row>
-               <v-col cols="12"  class="px-8 ">
+               <v-col cols="12" class="px-8">
                   <v-breadcrumbs
                      :items="breadcrumbs"
                      divider=">"
@@ -75,58 +105,82 @@
                   ></v-breadcrumbs>
                </v-col>
             </v-row>
-            <v-row >
+            <v-row>
                <v-col cols="12" md="6" class="px-8">
-
                   <SectionTitle :title-text="name" class="mt-5"></SectionTitle>
-                  <general-data :rank="item.rank" :duration="item.duration" :available="item.avaible" class="my-5"></general-data>
+                  <general-data
+                     :rank="item.rank"
+                     :duration="item.duration"
+                     :available="item.avaible"
+                     class="my-5"
+                  ></general-data>
                   <detail-action :item="item" :video="video"></detail-action>
-                  <SearchEngine  :openPax="openPax" :open="0" class="mt-5" v-if="this.$i18n.locale==='es'"> </SearchEngine>
-                  <v-btn v-else depressed class="bookBtn rounded-lg py-6 my-15" block
+                  <SearchEngine
+                     :openPax="openPax"
+                     :open="0"
+                     class="mt-5"
+                     v-if="this.$i18n.locale === 'es'"
+                  >
+                  </SearchEngine>
+                  <v-btn
+                     v-else
+                     depressed
+                     class="bookBtn rounded-lg py-6 my-15"
+                     block
+                     @click="openVentrata"
+                  >
+                     {{ $t("general.book_now") }}
+                  </v-btn>
 
-                           @click="openVentrata" >
-                           {{ $t('general.book_now') }}
-                        </v-btn>
-
-                  <content-expand :title="$t('tours.description')" :content="description" :is_html="true" class="mt-5"></content-expand>
-                  <content-expand :title="$t('tours.includes')" :content="include" :is_html="true" class="mt-5"></content-expand>
-                  <content-expand :title="$t('tours.not_included')" :content="not_included" :is_html="true" class="mt-5"></content-expand>
-                  <content-expand :title="$t('tours.recommendations')" :content="suggestion" :is_html="true" class="mt-5"></content-expand>
-                  <content-expand :title="$t('tours.notes')" :content="note" :is_html="true" class="mt-5"></content-expand>
-
-
-
-
-
-
-
-
-
-
-
+                  <content-expand
+                     :title="$t('tours.description')"
+                     :content="description"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
+                  <content-expand
+                     :title="$t('tours.includes')"
+                     :content="include"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
+                  <content-expand
+                     :title="$t('tours.not_included')"
+                     :content="not_included"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
+                  <content-expand
+                     :title="$t('tours.recommendations')"
+                     :content="suggestion"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
+                  <content-expand
+                     :title="$t('tours.notes')"
+                     :content="note"
+                     :is_html="true"
+                     class="mt-5"
+                  ></content-expand>
                </v-col>
             </v-row>
-
-
          </v-container>
-         <div v-if="map!=='' " v-html="map" style="width: 100%;"></div>
+         <div v-if="map !== ''" v-html="map" style="width: 100%"></div>
       </client-only>
    </div>
-
 </template>
 
-
 <script>
-import SearchEngine from '~/components/General/SearchEngine.vue'
-import SectionTitle from '~/components/General/SectionTitle.vue'
-import Gallery from '~/components/Tours/Gallery.vue'
-import DetailAction from '~/components/Tours/DetailAction.vue'
+import SearchEngine from "~/components/General/SearchEngine.vue";
+import SectionTitle from "~/components/General/SectionTitle.vue";
+import Gallery from "~/components/Tours/Gallery.vue";
+import DetailAction from "~/components/Tours/DetailAction.vue";
 // import Categories from '~/components/General/Categories.vue';
-import GeneralData from '~/components/Tours/GeneralData.vue'
-import ContentExpand from '~/components/General/ContentExpand.vue'
+import GeneralData from "~/components/Tours/GeneralData.vue";
+import ContentExpand from "~/components/General/ContentExpand.vue";
 // import Location from '~/components/Tours/Location.vue'
 export default {
-   components:{
+   components: {
       Gallery,
       SearchEngine,
       SectionTitle,
@@ -135,97 +189,80 @@ export default {
       GeneralData,
       ContentExpand,
       // Location
-
    },
 
-   data(){
+   data() {
       return {
-         itemsGallery:[],
-         name:'',
-         description:'',
-         suggestion:'',
-         note:'',
-         include:'',
-         img:'',
-         item:{},
-         openPax:false,
-         titleMeta:'',
-         descriptionMeta:'',
-         keywordsMeta:'',
-         map:'',
-         not_included:'',
-         video :null,
-         ventrataId:null,
-         ventrataOptionId:null
-
-      }
+         itemsGallery: [],
+         name: "",
+         description: "",
+         suggestion: "",
+         note: "",
+         include: "",
+         img: "",
+         item: {},
+         openPax: false,
+         titleMeta: "",
+         descriptionMeta: "",
+         keywordsMeta: "",
+         map: "",
+         not_included: "",
+         video: null,
+         ventrataId: null,
+         ventrataOptionId: null,
+      };
    },
 
-   head(){
-
+   head() {
       return {
+         // eslint-disable-next-line object-shorthand
+         title: this.titleMeta,
+         htmlAttrs: {
+            lang: this.$i18n.locale,
+         },
+         meta: [
+            {
+               hid: "og:description",
+               name: "og:description",
+               // content: context.$i18n.messages[context.$i18n.locale].meta.home.description
+               content: this.descriptionMeta,
+            },
+            {
+               hid: "og:keywords",
+               name: "og:keywords",
+               content: this.keywordsMeta,
+            },
 
-               // eslint-disable-next-line object-shorthand
-               title: this.titleMeta,
-               htmlAttrs: {
-                  lang: this.$i18n.locale
-               },
-               meta:[
-                  {
-                     hid: 'og:description',
-                     name: 'og:description',
-                     // content: context.$i18n.messages[context.$i18n.locale].meta.home.description
-                     content: this.descriptionMeta
-
-
-                  },
-                  {
-                     hid: 'og:keywords',
-                     name: 'og:keywords',
-                     content: this.keywordsMeta
-
-
-                  },
-
-
-                  {
-                     hid: 'og:title',
-                     name: 'og:title',
-                     content: this.titleMeta
-
-
-                  },
-
-               ]
-            }
-
+            {
+               hid: "og:title",
+               name: "og:title",
+               content: this.titleMeta,
+            },
+         ],
+      };
    },
 
-
-   computed:{
-      mobile(){
-            return this.isMobile();
+   computed: {
+      mobile() {
+         return this.isMobileDevice();
       },
-      breadcrumbs(){
+      breadcrumbs() {
          return [
             {
-              text: 'Home',
-              disabled: false,
-              href: '/',
+               text: "Home",
+               disabled: false,
+               href: "/",
             },
             {
-              text: this.name,
-              disabled: true,
-
+               text: this.name,
+               disabled: true,
             },
-
-         ]
+         ];
       },
 
-      language(){
-         return this.$store.getters['booking/language'];
-      }
-
+      language() {
+         return this.$store.getters["booking/language"];
+      },
    },
 
    /*
@@ -236,91 +273,82 @@ export default {
    },
    */
 
-   mounted(){
+   mounted() {
       this.getDataTour();
 
-      this.$nuxt.$on('bookEvent',()=>{
-
-         document.getElementById("search-engine").scrollIntoView({behavior:"smooth"});
-         this.openPax=true
-
-      })
+      this.$nuxt.$on("bookEvent", () => {
+         document
+            .getElementById("search-engine")
+            .scrollIntoView({ behavior: "smooth" });
+         this.openPax = true;
+      });
    },
 
-
-
-   methods:{
-      openVentrata(){
-
+   methods: {
+      openVentrata() {
          let ventrata1;
 
-            if(this.ventrataId!=null) {
-               if(this.ventrataOptionId!=null){
-                  ventrata1 = {
-                     "lang":"en",
-                     "referrer": "cancunbay",
-                     "productID":this.ventrataId,
-                     "optionID":this.ventrataOptionId
-                  }
-               }
-               else{
-                  ventrata1 = {
-                     "lang":"en",
-                     "referrer": "cancunbay",
-                     "productID":this.ventrataId
-                  }
-               }
+         if (this.ventrataId != null) {
+            if (this.ventrataOptionId != null) {
+               ventrata1 = {
+                  lang: "en",
+                  referrer: "cancunbay",
+                  productID: this.ventrataId,
+                  optionID: this.ventrataOptionId,
+               };
+            } else {
+               ventrata1 = {
+                  lang: "en",
+                  referrer: "cancunbay",
+                  productID: this.ventrataId,
+               };
             }
-            else{
-               ventrata1 ={
+         } else {
+            ventrata1 = {
+               lang: "en",
+               referrer: "cancunbay",
+            };
+         }
+         // const ventrataVars =
 
-                  "lang":"en",
-                  "referrer": "cancunbay"
-               }
-            }
-            // const ventrataVars =
-
-
-            window.Ventrata(ventrata1)
-
-
+         window.Ventrata(ventrata1);
       },
       async getDataTour() {
          try {
-         await this.$axios
-            .post('/getTourData', {
-               id: this.$route.params.slug,
-               idioma:this.language
-            })
-            .then((resp) => {
-               // this.data = resp.data
-               /*
+            await this.$axios
+               .post("/getTourData", {
+                  id: this.$route.params.slug,
+                  idioma: this.language,
+               })
+               .then((resp) => {
+                  // this.data = resp.data
+                  /*
                this.img = resp.data.data[0].img
 
                this.subtitle = resp.data.data[0].sub_title
 
 
                */
-               this.item = resp.data.data[0];
-               this.name = resp.data.data[0].name
-               this.itemsGallery = resp.data.gallery
-               this.description = resp.data.data[0].description
-               this.suggestion = resp.data.data[0].bring
-               this.note = resp.data.data[0].note
-               this.include = resp.data.data[0].includes
-               this.img = resp.data.data[0].full_photo_path
-               this.video = resp.data.data[0].video
+                  this.item = resp.data.data[0];
+                  this.name = resp.data.data[0].name;
+                  this.itemsGallery = resp.data.gallery;
+                  this.description = resp.data.data[0].description;
+                  this.suggestion = resp.data.data[0].bring;
+                  this.note = resp.data.data[0].note;
+                  this.include = resp.data.data[0].includes;
+                  this.img = resp.data.data[0].full_photo_path;
+                  this.video = resp.data.data[0].video;
 
-               this.titleMeta = resp.data.data[0].meta_title;
-                     this.descriptionMeta= resp.data.data[0].meta_description;
-                     this.keywordsMeta=resp.data.data[0].meta_keywords;
+                  this.titleMeta = resp.data.data[0].meta_title;
+                  this.descriptionMeta = resp.data.data[0].meta_description;
+                  this.keywordsMeta = resp.data.data[0].meta_keywords;
 
-               this.map= resp.data.data[0].map;
-                this.not_included= resp.data.data[0].not_include;
-                this.ventrataId = resp.data.data[0].ventrata_product_id;
-                this.ventrataOptionId = resp.data.data[0].ventrata_option_id;
+                  this.map = resp.data.data[0].map;
+                  this.not_included = resp.data.data[0].not_include;
+                  this.ventrataId = resp.data.data[0].ventrata_product_id;
+                  this.ventrataOptionId = resp.data.data[0].ventrata_option_id;
 
-               /*
+                  /*
 
                this.notInclude = resp.data.data[0].not_include
 
@@ -341,33 +369,25 @@ export default {
                this.loadingGallery = false
                } */
 
-               this.$store.commit('booking/dataTours', {
-                  id: resp.data.data[0].tour_id,
-                  name: this.name,
-                  url: resp.data.data[0].url,
-                  img: this.img,
-                  duration: resp.data.data[0].duration,
-                  isPrivate:resp.data.data[0].is_private,
-                  rates: resp.data.data[0].rates,
-                  pax:null,
-                  namePax:'',
-                  tour_id: resp.data.data[0].tour_id
-
-
-               })
-               this.reRender = this.reRender + 1
-            })
+                  this.$store.commit("booking/dataTours", {
+                     id: resp.data.data[0].tour_id,
+                     name: this.name,
+                     url: resp.data.data[0].url,
+                     img: this.img,
+                     duration: resp.data.data[0].duration,
+                     isPrivate: resp.data.data[0].is_private,
+                     rates: resp.data.data[0].rates,
+                     pax: null,
+                     namePax: "",
+                     tour_id: resp.data.data[0].tour_id,
+                  });
+                  this.reRender = this.reRender + 1;
+               });
          } catch (err) {
-            this.error = err.response.data.message
+            this.error = err.response.data.message;
             // console.log('error' + e)
          }
       },
-
-
-
-
-
-   }
-
-}
+   },
+};
 </script>
