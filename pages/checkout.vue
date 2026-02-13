@@ -43,8 +43,7 @@
                   ></paypal>
 
                   <mercadoPago
-                     v-else
-                     :class="[steps == 2 ? 'd-block' : 'd-none']"
+                     v-if="siteD !== 'USD' && steps == 2"
                      :clientId="clientId"
                      :total="total"
                   >
@@ -216,6 +215,10 @@ export default {
       this.$nuxt.$on("goPaymentEvent", (id) => {
          this.clientId = id.client;
          this.total = id.total;
+         this.$store.dispatch("booking/setTotal", {
+            usd: this.total,
+            mxn: this.total,
+         });
          this.steps = 2;
       });
       this.$nuxt.$on("confirmation", () => {

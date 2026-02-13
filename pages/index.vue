@@ -2,34 +2,48 @@
    <div id="homePage">
       <client-only>
          <div class="sliderCo">
-            <div v-if="$i18n.locale !== 'es'">
-               <img
-                  v-if="!mobile"
-                  src="/images/homeBanners/default-web-eng_1.jpg"
-                  :height="imgHeight"
-                  width="100%"
-               />
-               <img
-                  v-else
-                  src="/images/homeBanners/default-mobile-eng.jpg"
-                  :height="imgHeight"
-                  width="100%"
-               />
-            </div>
-            <div v-else>
-               <img
-                  v-if="!mobile"
-                  src="/images/homeBanners/default-web-esp_1.jpg"
-                  :height="imgHeight"
-                  width="100%"
-               />
-               <img
-                  v-else
-                  src="/images/homeBanners/default-mobile-esp_.jpg"
-                  :height="imgHeight"
-                  width="100%"
-               />
-            </div>
+            <template v-if="!loadingBanner">
+               <div v-if="$i18n.locale !== 'es'">
+                  <img
+                     v-if="!mobile"
+                     :src="
+                        getBannerPrincipal ||
+                        '/images/homeBanners/default-web-eng_1.jpg'
+                     "
+                     :height="imgHeight"
+                     width="100%"
+                  />
+                  <img
+                     v-else
+                     :src="
+                        getBannerPrincipal ||
+                        '/images/homeBanners/default-mobile-eng.jpg'
+                     "
+                     :height="imgHeight"
+                     width="100%"
+                  />
+               </div>
+               <div v-else>
+                  <img
+                     v-if="!mobile"
+                     :src="
+                        getBannerPrincipal ||
+                        '/images/homeBanners/default-web-esp_1.jpg'
+                     "
+                     :height="imgHeight"
+                     width="100%"
+                  />
+                  <img
+                     v-else
+                     :src="
+                        getBannerPrincipal ||
+                        '/images/homeBanners/default-mobile-esp_.jpg'
+                     "
+                     :height="imgHeight"
+                     width="100%"
+                  />
+               </div>
+            </template>
 
             <div class="search_container" v-if="this.$i18n.locale === 'es'">
                <v-container>
@@ -160,6 +174,8 @@ export default {
       return {
          homeTourList: [],
          items: [],
+         bannersPrincipal: [],
+         loadingBanner: true,
          backgroundImage: "",
          titleMeta: "",
          descriptionMeta: "",
@@ -229,6 +245,22 @@ export default {
             return 500;
          }
       },
+      getBannerPrincipal() {
+         const idioma = this.$i18n.locale === "es" ? 1 : 2;
+         const isMobile = this.isMobileDevice() ? 0 : 1;
+
+         if (this.bannersPrincipal.length > 0) {
+            const data = this.bannersPrincipal.find(
+               (item) =>
+                  item.languages_id == idioma && item.es_mobil == isMobile
+            );
+
+            if (data) {
+               return data.full_photo_path;
+            }
+         }
+         return null;
+      },
    },
 
    created() {
@@ -238,6 +270,7 @@ export default {
       this.keywordsMeta = this.$t("meta.home.description");
       this.init();
       this.getHomeToursList();
+      this.getBannerPrincipalData();
    },
 
    mounted() {
@@ -312,6 +345,17 @@ export default {
                this.error = error.response.data.message;
                // console.log('error' + error);
             });
+      },
+      async getBannerPrincipalData() {
+         try {
+            await this.$axios.post("/getBannerPrincipal").then((response) => {
+               this.bannersPrincipal = response.data.data;
+               this.loadingBanner = false;
+            });
+         } catch (error) {
+            console.log(error);
+            this.loadingBanner = false;
+         }
       },
    },
 };

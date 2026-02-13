@@ -85,6 +85,7 @@ export default {
          textErrorBook: "",
          showAlertPending: false,
          textErrorBookPending: "",
+         brickController: null,
       };
    },
 
@@ -124,9 +125,14 @@ export default {
          // const formatter = new Intl.NumberFormat('en-US');
          console.log(total);
 
+         const usd = total.usd ? Number(total.usd) : 0;
+         const mxn = total.mxn ? Number(total.mxn) : 0;
+
+         console.log("USD:", usd, "MXN:", mxn);
+
          return this.$store.getters["booking/language"] === 2
-            ? Math.ceil(total.usd.toFixed(2))
-            : Math.ceil(total.mxn.toFixed(2));
+            ? Math.ceil(usd.toFixed(2))
+            : Math.ceil(mxn.toFixed(2));
       },
       mobile() {
          return this.isMobileDevice();
@@ -163,8 +169,38 @@ export default {
       },
 
       async renderPaymentBrick() {
-         // window.paymentBrickController.unmount();
-         loadMercadoPago();
+         console.log("Rendering payment brick...");
+         if (this.brickController) {
+            try {
+               await this.brickController.unmount();
+               this.brickController = null;
+               console.log("Brick unmounted successfully");
+            } catch (e) {
+               console.log("Error unmounting brick", e);
+            }
+         }
+         const container = document.getElementById("paymentBrick_container");
+         if (container) {
+            container.innerHTML = "";
+         }
+
+         try {
+            if (!window.MercadoPago) {
+               console.log("Loading MercadoPago via loadMercadoPago()...");
+               await loadMercadoPago();
+            } else {
+               console.log("MercadoPago already loaded via window.MercadoPago");
+            }
+         } catch (e) {
+            console.log("Error loading script", e);
+         }
+
+         if (!window.MercadoPago) {
+            console.error("MercadoPago not loaded");
+            return;
+         }
+
+         console.log("Initializing MercadoPago instance");
          this.mp = new window.MercadoPago(
             "APP_USR-63cac48c-ec59-45f7-be27-bb160c6bf4fa",
             {
@@ -202,6 +238,7 @@ export default {
                      Aquí puede ocultar cargamentos de su sitio, por ejemplo.
                      */
                   // alert('ready');
+                  console.log("Brick Ready!");
                },
                onSubmit: ({ selectedPaymentMethod, formData }) => {
                   // callback llamado al hacer clic en el botón enviar datos
@@ -263,15 +300,21 @@ export default {
                },
                onError: (error) => {
                   // callback llamado para todos los casos de error de Brick
-                  console.error(error);
+                  console.error("Brick Error:", error);
                },
             },
          };
-         await this.bricksBuilder.create(
-            "payment",
-            "paymentBrick_container",
-            settings
-         );
+         console.log("Creating brick...");
+         try {
+            this.brickController = await this.bricksBuilder.create(
+               "payment",
+               "paymentBrick_container",
+               settings
+            );
+            console.log("Brick created:", this.brickController);
+         } catch (e) {
+            console.error("Error creating brick", e);
+         }
       },
 
       /*
