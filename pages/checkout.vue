@@ -35,6 +35,18 @@
                   ></InformationForm>
                   <!--<payment-form :class="[(steps==2) ? 'd-block' : 'd-none' ]"></payment-form>-->
 
+                  <v-alert
+                     v-if="showError"
+                     border="right"
+                     colored-border
+                     type="error"
+                     elevation="2"
+                     class="mb-4"
+                     dismissible
+                  >
+                     {{ paymentError }}
+                  </v-alert>
+
                   <paypal
                      v-if="siteD === 'USD'"
                      :class="[steps == 2 ? 'd-block' : 'd-none']"
@@ -42,12 +54,12 @@
                      :total="total"
                   ></paypal>
 
-                  <mercadoPago
+                  <clip
                      v-if="siteD !== 'USD' && steps == 2"
                      :clientId="clientId"
                      :total="total"
                   >
-                  </mercadoPago>
+                  </clip>
 
                   <confirmation
                      :class="[steps == 3 ? 'd-block' : 'd-none']"
@@ -162,6 +174,7 @@ import TourDetail from "~/components/checkout/TourDetail.vue";
 import Confirmation from "~/components/checkout/Confirmation.vue";
 import Paypal from "~/components/checkout/paypal.vue";
 import MercadoPago from "~/components/checkout/MercadoPago.vue";
+import Clip from "~/components/checkout/Clip.vue";
 export default {
    components: {
       InformationForm,
@@ -169,6 +182,7 @@ export default {
       Confirmation,
       MercadoPago,
       Paypal,
+      Clip,
    },
    data() {
       return {
@@ -180,6 +194,9 @@ export default {
                ? "/images/layout/100_reembolsable.svg"
                : "/images/layout/100_money-back.svg",
          siteD: this.$i18n.locale === "es" ? "MXN" : "USD",
+         paymentError: "",
+         showError: false,
+         dialog: false,
       };
    },
 
@@ -207,10 +224,23 @@ export default {
          // console.log(this.$route.name);
          return this.isMobileDevice();
       },
+
+      languageCode() {
+         return this.$store.getters["booking/language"];
+      },
    },
 
    mounted() {
       this.getTotalTour();
+
+      // Verificar si regresamos de un pago con Clip
+      const status = this.$route.query.status;
+      const clientId = this.$route.query.clientId;
+
+      if ((status === "success" || status === "error") && clientId) {
+         this.clientId = clientId;
+         this.confirmClipPayment(clientId);
+      }
 
       this.$nuxt.$on("goPaymentEvent", (id) => {
          this.clientId = id.client;
@@ -226,6 +256,57 @@ export default {
       });
    },
    methods: {
+      confirmClipPayment(clientId) {
+         this.dialog = true; // Mostrar diálogo de cargando si existe
+         // Paso 1: Verificar el estado real en el backend consultando la API de Clip
+         this.$axios
+            .post("/clip/verify-payment-status", { clientId: clientId })
+            .then((res) => {
+               const finalStatus =
+                  res.data.status === "success"
+                     ? res.data.final_status
+                     : "rejected";
+               const paymentId =
+                  res.data.payment_id || "CLIP-PAYMENT-" + clientId;
+
+               // Paso 2: Actualizar el pago con el estado final (complet, pending o rejected)
+               this.$axios
+                  .post("/updatePayment", {
+                     clientId: clientId,
+                     authorization: paymentId,
+                     status: finalStatus,
+                     idioma: this.languageCode,
+                     merch: "Clip",
+                  })
+                  .then((response) => {
+                     if (finalStatus === "complet") {
+                        this.$nuxt.$emit("confirmation");
+                     } else if (finalStatus === "pending") {
+                        // Tratar como pendiente (similar a ticket de Mercado Pago)
+                        this.steps = 3;
+                        this.$nuxt.$emit("confirmation");
+                     } else {
+                        // Rejected
+                        this.showError = true;
+                        this.paymentError =
+                           "El pago no pudo ser procesado. Por favor intente de nuevo.";
+                     }
+                     this.dialog = false;
+                  })
+                  .catch((error) => {
+                     console.log(error);
+                     this.showError = true;
+                     this.paymentError = this.$t("forms.payment.error");
+                     this.dialog = false;
+                  });
+            })
+            .catch((err) => {
+               console.error("Error verificando Clip:", err);
+               this.showError = true;
+               this.paymentError = "No se pudo verificar el estado de su pago.";
+               this.dialog = false;
+            });
+      },
       async getTotalTour() {
          try {
             if (!this.tourDetail.isPrivate) {
