@@ -162,6 +162,19 @@
             </v-row>
          </v-col>
       </v-row>
+
+      <v-dialog v-model="dialog" persistent width="300">
+         <v-card color="primary" dark>
+            <v-card-text class="pt-5">
+               {{ $t("forms.payment.verifying") || "Verificando su pago..." }}
+               <v-progress-linear
+                  indeterminate
+                  color="white"
+                  class="mb-0 mt-3"
+               ></v-progress-linear>
+            </v-card-text>
+         </v-card>
+      </v-dialog>
    </v-container>
 </template>
 
@@ -230,17 +243,26 @@ export default {
       },
    },
 
+   watch: {
+      // Usamos el watch para asegurar que detectamos el cambio aunque el componente se reutilice
+      "$route.query": {
+         handler(query) {
+            console.log("Watch detectó cambio en query:", query);
+            const status = query.status;
+            const clientId = query.clientId;
+
+            if ((status === "success" || status === "error") && clientId) {
+               console.log("Iniciando confirmación desde Watch");
+               this.clientId = clientId;
+               this.confirmClipPayment(clientId);
+            }
+         },
+         immediate: true,
+      },
+   },
+
    mounted() {
       this.getTotalTour();
-
-      // Verificar si regresamos de un pago con Clip
-      const status = this.$route.query.status;
-      const clientId = this.$route.query.clientId;
-
-      if ((status === "success" || status === "error") && clientId) {
-         this.clientId = clientId;
-         this.confirmClipPayment(clientId);
-      }
 
       this.$nuxt.$on("goPaymentEvent", (id) => {
          this.clientId = id.client;

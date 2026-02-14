@@ -72,25 +72,25 @@
             >
                <img
                   class="logo logoTrip"
-                  src="/images/layout/tripadvisor-2021.svg"
-                  :width="!mobile ? '10%' : '20%'"
-                  alt="Trip advisor 2021"
+                  src="/images/layout/T_A_2024.svg"
+                  :width="!mobile ? '19%' : '50%'"
+                  alt="Trip advisor 2024"
                />
 
                <img
                   class="logo pointer"
-                  src="/images/layout/TC_L_2023.svg"
+                  src="/images/layout/T_A_2025.svg"
                   :width="!mobile ? '20%' : '50%'"
                   @click="openLink"
                   style="cursor: pointer"
-                  alt="Trip Advisor 2023"
+                  alt="Trip Advisor 2025"
                />
 
                <img
                   class="logo logoTrip"
-                  src="/images/layout/tripadvisor-2022.svg"
-                  :width="!mobile ? '10%' : '20%'"
-                  alt="Trip advisor 2022"
+                  src="/images/layout/TC_L_2023.svg"
+                  :width="!mobile ? '19%' : '50%'"
+                  alt="Trip advisor 2023"
                />
             </v-col>
          </v-row>
